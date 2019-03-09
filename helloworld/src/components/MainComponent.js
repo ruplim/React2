@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Menu from './MenuComponent';
-// import DishDetail from './DishDetailComponent';
+import DishDetail from './DishDetailComponent';
 import { DISHES } from '../shared/dishes';
 import { COMMENTS } from '../shared/comments';
 import { PROMOTIONS } from '../shared/promotions';
@@ -40,15 +40,21 @@ class Main extends Component {
         leader={this.state.leaders.filter((leader) => leader.featured)[0]}
     />
       );
-    }
+    };
 
-
+    const DishWithId = ({match}) => {
+      return(
+          <DishDetail dish={this.state.dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]} 
+            comments={this.state.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))} />
+      );
+    };
     return (
       <div>
         <Header />
         <Switch>
               <Route path='/home' component={HomePage} />
               <Route exact path='/menu' component={() => <Menu dishes={this.state.dishes} />} />
+              <Route path='/menu/:dishId' component={DishWithId} />
               <Route exact path='/contactus' component={Contact} />} />
               <Redirect to="/home" />
         </Switch>
